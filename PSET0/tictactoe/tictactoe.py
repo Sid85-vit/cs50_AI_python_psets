@@ -126,7 +126,7 @@ def min_value(board):
             best = action
     return v, best
 
-def minimax(board):
+def minimax_without_alpha_beta_pruning(board):
     """
     Returns the optimal action for the current player on the board.
     """
@@ -138,5 +138,49 @@ def minimax(board):
         return min_value(board)[1]
     else:
         raise Exception("bug in minimax algorithm")
+
+def max_value_alpha_beta(board, alpha, beta):
+    if terminal(board):
+        return utility(board), None
+    v = float("-inf")
+    best = None
+    for action in actions(board):
+        min_v = min_value_alpha_beta(result(board, action), alpha, beta)[0]
+        if min_v > v:
+            v = min_v
+            best = action
+        alpha = max(alpha, v)
+        if beta <= alpha:
+            break
+    return v, best
+
+def min_value_alpha_beta(board, alpha, beta):
+    if terminal(board):
+        return utility(board), None
+    v = float("inf")
+    best = None
+    for action in actions(board):
+        max_v = max_value_alpha_beta(result(board, action), alpha, beta)[0]
+        if max_v < v:
+            v = max_v
+            best = action
+        beta = min(beta, v)
+        if beta <= alpha:
+            break
+    return v, best
+
+def minimax(board):
+    """
+    Returns the optimal action for the current player on the board.
+    """
+    if terminal(board):
+        return None
+    if player(board) == X:
+        return max_value_alpha_beta(board, float("-inf"), float("inf"))[1]
+    elif player(board) == O:
+        return min_value_alpha_beta(board, float("-inf"), float("inf"))[1]
+    else:
+        raise Exception("bug in minimax algorithm")
+
 
     
