@@ -14,6 +14,9 @@ class Minesweeper():
         self.width = width
         self.mines = set()
 
+        # At first, player has found no mines
+        self.mines_found = set()
+
         # Initialize an empty field with no mines
         self.board = []
         for i in range(self.height):
@@ -28,10 +31,7 @@ class Minesweeper():
             j = random.randrange(width)
             if not self.board[i][j]:
                 self.mines.add((i, j))
-                self.board[i][j] = True
-
-        # At first, player has found no mines
-        self.mines_found = set()
+                self.board[i][j] = True        
 
     def print(self):
         """
@@ -123,21 +123,19 @@ class Sentence():
         Updates internal knowledge representation given the fact that
         a cell is known to be a mine.
         """
-        for scell in self.cells:
-            if cell == scell:
-                self.mines.add(cell)
-                self.cells.remove(cell)
-                self.count -= 1
+        if cell in self.cells:
+            self.mines.add(cell)
+            self.cells.remove(cell)
+            self.count -= 1
 
     def mark_safe(self, cell):
         """
         Updates internal knowledge representation given the fact that
         a cell is known to be safe.
         """
-        for scell in self.cells:
-            if cell == scell:
-                self.safes.add(cell)
-                self.cells.remove(cell)
+        if cell in self.cells:
+            self.safes.add(cell)
+            self.cells.remove(cell)
 
 
 class MinesweeperAI():
@@ -158,7 +156,7 @@ class MinesweeperAI():
         self.mines = set()
         self.safes = set()
 
-        # Keep track of all available moves
+        # Keep track of all available moves at any one time
         self.available_moves = set()
         for i in range(self.height):
             for j in range(self.width):
@@ -173,7 +171,8 @@ class MinesweeperAI():
         to mark that cell as a mine as well.
         """
         self.mines.add(cell)
-        # self.available_moves.remove(cell)
+        self.moves_made.add(cell)
+        self.available_moves.remove(cell)
         for sentence in self.knowledge:
             sentence.mark_mine(cell)
 
@@ -183,7 +182,8 @@ class MinesweeperAI():
         to mark that cell as safe as well.
         """
         self.safes.add(cell)
-        # self.available_moves.remove(cell)
+        self.moves_made.add(cell)
+        self.available_moves.remove(cell)
         for sentence in self.knowledge:
             sentence.mark_safe(cell)
 
@@ -204,13 +204,59 @@ class MinesweeperAI():
                if they can be inferred from existing knowledge
         """
 
-        self.moves_made.add(cell)
         self.safes.add(cell)
-        self.knowledge.add(Sentence(cell, count))
+        self.moves_made.add(cell)
+        self.available_moves.remove(cell)
+        cells = []
+        for i in range(cell[0] - 1, cell[0] + 2):
+            for j in range(cell[1] - 1, cell[1] + 2):
+                if 0 <= i < self.height and 0 <= j < self.width and i != cell[0] and j != cell[1]:
+                    cells.append((i,j))
+        self.knowledge.add(Sentence(cells, count))
+        # add safe cell
         for sentence in self.knowledge:
             sentence.mark_safe(cell)
+        # i need to think about the order of operations and keep iterating until knowledge stops changing
+        """ 
+        infer from one sentence count equalling the length of that 
+        sentences count that all of the cells are mines and then apply 
+        that knowledge to all sentences
+        """
+        for sentence in self.knowledge:
+            print(sentence.cells, sentence.count)
+        # for sentence in self.knowledge:
+        #     if (sentence.count == len(sentence.cells)):
+        #         for cell in sentence.cells:
+        #             sentence.mark_mine(cell)
+        #             # instead of having that if, I can just get the diff in the sets
+        #             for other_sentence in self.knowledge:
+        #                 if sentence != other_sentence:
+        #                     other_sentence.mark_mine(cell)
+        """
+        infer from one sentence count being zero but there being cells
+        that all those cells are safe and then propigate that knowledge
+        to current sentence and that particular cell knowledge to the
+        rest of the sentences
+        """
+        # for sentence in self.knowledge:
+        #     if (sentence.count == 0 and len(sentence.cells) != 0):
+        #         for cell in sentence.cells:
+        #             sentence.mark_safe(cell)
+        #             for other_sentence in self.knowledge:
+        #                 if sentence != other_sentence:
+        #                     other_sentence.mark_safe(cell)
+        """
+        Add the difference between two complete subsets to knowledge
+        """
+        # new_sentences = []
+        # for sentence1 in self.knowledge:
+        #     for sentence2 in self.knowledge:
+        #         if (sentence1 != sentence2 and sentence1.issubset(sentence2)):
+        #             new_count = sentence2.count - sentence1.count
+        #             new_set = sentence2.cells.difference(sentence1.cells)
+        #             new_sentences.append(Sentence(new_set,new_count))
+        # [self.knowledge.add(sentence) for sentence in new_sentences]
 
-        # not sure about #5, just take the differences among sets?
 
     def make_safe_move(self):
         """
@@ -221,9 +267,8 @@ class MinesweeperAI():
         This function may use the knowledge in self.mines, self.safes
         and self.moves_made, but should not modify any of those values.
         """
-        # dont know if this is the right syntax
-        # diff = self.moves_made.difference(self.safes)
-        # return None if not diff else random.choice(tuple(diff))
+        diff = self.safes.difference(self.moves_made)
+        return None if not diff else random.choice(tuple(diff))
 
     def make_random_move(self):
         """
@@ -232,4 +277,4 @@ class MinesweeperAI():
             1) have not already been chosen, and
             2) are not known to be mines
         """
-        raise NotImplementedError
+        return None if self.available_moves == set() else random.choice(tuple(self.available_moves))
