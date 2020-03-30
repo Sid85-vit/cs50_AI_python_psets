@@ -30,6 +30,7 @@ class Minesweeper():
             i = random.randrange(height)
             j = random.randrange(width)
             if not self.board[i][j]:
+                print((i, j))
                 self.mines.add((i, j))
                 self.board[i][j] = True        
 
@@ -156,12 +157,6 @@ class MinesweeperAI():
         self.mines = set()
         self.safes = set()
 
-        # Keep track of all available moves at any one time
-        self.available_moves = set()
-        for i in range(self.height):
-            for j in range(self.width):
-                self.available_moves.add((i,j))
-
         # Set of sentences about the game known to be true
         self.knowledge = set()
 
@@ -172,7 +167,6 @@ class MinesweeperAI():
         """
         self.mines.add(cell)
         self.moves_made.add(cell)
-        self.available_moves.remove(cell)
         for sentence in self.knowledge:
             sentence.mark_mine(cell)
 
@@ -183,7 +177,6 @@ class MinesweeperAI():
         """
         self.safes.add(cell)
         self.moves_made.add(cell)
-        self.available_moves.remove(cell)
         for sentence in self.knowledge:
             sentence.mark_safe(cell)
 
@@ -206,7 +199,6 @@ class MinesweeperAI():
 
         self.safes.add(cell)
         self.moves_made.add(cell)
-        self.available_moves.remove(cell)
         cells = []
         for i in range(cell[0] - 1, cell[0] + 2):
             for j in range(cell[1] - 1, cell[1] + 2):
@@ -224,50 +216,45 @@ class MinesweeperAI():
         sentences count that all of the cells are mines and then apply 
         that knowledge to all sentences
         """
-        # for sentence in self.knowledge:
-        #     print(sentence.cells, sentence.count)
         for sentence in self.knowledge:
             if (sentence.count == len(sentence.cells)):
                 for cell in sentence.cells:
                     self.mines.add(cell)
-                    self.available_moves.remove(cell)
-                    sentence.mark_mine(cell)
-                    # instead of having that if, I can just get the diff in the sets
-                    for other_sentence in self.knowledge:
-                        if sentence != other_sentence:
-                            other_sentence.mark_mine(cell)
+
+        for mine in self.mines:
+            for sentence in self.knowledge:
+                sentence.mark_mine(mine)
         """
         infer from one sentence count being zero but there being cells
         that all those cells are safe and then propigate that knowledge
         to current sentence and that particular cell knowledge to the
         rest of the sentences
         """
-        # for sentence in self.knowledge:
-        #     if (sentence.count == 0 and len(sentence.cells) != 0):
-        #         """
-        #         File "runner.py", line 220, in <module>
-        #             ai.add_knowledge(move, nearby)
-        #         File "/Users/maxyazhbin/Desktop/_cs50_AI_python/PSETs/PSET1/minesweeper/minesweeper.py", line 247, in add_knowledge
-        #             for cell in sentence.cells:
-        #         RuntimeError: Set changed size during iteration
-        #         """
-        #         for cell in sentence.cells:
-        #             self.safes.add(cell)
-        #             sentence.mark_safe(cell)
-        #             for other_sentence in self.knowledge:
-        #                 if sentence != other_sentence:
-        #                     other_sentence.mark_safe(cell)
+        for sentence in self.knowledge:
+            if (sentence.count == 0 and len(sentence.cells) != 0):
+                for cell in sentence.cells:
+                    self.safes.add(cell)
+
+        for safe_cell in self.safes:
+            for sentence in self.knowledge:
+                sentence.mark_safe(safe_cell)
+
         """
         Add the difference between two complete subsets to knowledge
         """
-        # new_sentences = []
-        # for sentence1 in self.knowledge:
-        #     for sentence2 in self.knowledge:
-        #         if (sentence1 != sentence2 and sentence1.cells.issubset(sentence2.cells)):
-        #             new_count = sentence2.count - sentence1.count
-        #             new_set = sentence2.cells.difference(sentence1.cells)
-        #             new_sentences.append(Sentence(new_set,new_count))
-        # [self.knowledge.add(sentence) for sentence in new_sentences]
+        new_sentences = []
+        for sentence1 in self.knowledge:
+            for sentence2 in self.knowledge:
+                if (sentence1 != sentence2 and sentence1.cells.issubset(sentence2.cells)):
+                    new_count = sentence2.count - sentence1.count
+                    new_set = sentence2.cells.difference(sentence1.cells)
+                    new_sentences.append(Sentence(new_set,new_count))
+        [self.knowledge.add(sentence) for sentence in new_sentences]
+
+        for sentence in self.knowledge:
+            print(sentence.cells, sentence.count)
+        print(f"safes: {self.safes}")
+        print(f"moves_made: {self.moves_made}")
 
 
     def make_safe_move(self):
@@ -289,4 +276,13 @@ class MinesweeperAI():
             1) have not already been chosen, and
             2) are not known to be mines
         """
-        return None if self.available_moves == set() else random.choice(tuple(self.available_moves))
+        available_moves = set()
+        dont_choose = self.moves_made.union(self.mines)
+        for i in range(self.height):
+            for j in range(self.width):
+                tmp = (i,j)
+                if (tmp not in dont_choose):
+                    available_moves.add(tmp)
+                    
+        
+        return None if available_moves == set() else random.choice(tuple(available_moves))
