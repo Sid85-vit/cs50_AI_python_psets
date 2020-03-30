@@ -30,7 +30,7 @@ class Minesweeper():
             i = random.randrange(height)
             j = random.randrange(width)
             if not self.board[i][j]:
-                print((i, j))
+                # print((i, j))
                 self.mines.add((i, j))
                 self.board[i][j] = True        
 
@@ -251,10 +251,10 @@ class MinesweeperAI():
                     new_sentences.append(Sentence(new_set,new_count))
         [self.knowledge.add(sentence) for sentence in new_sentences]
 
-        for sentence in self.knowledge:
-            print(sentence.cells, sentence.count)
-        print(f"safes: {self.safes}")
-        print(f"moves_made: {self.moves_made}")
+        # for sentence in self.knowledge:
+        #     print(sentence.cells, sentence.count)
+        # print(f"safes: {self.safes}")
+        # print(f"moves_made: {self.moves_made}")
 
 
     def make_safe_move(self):
