@@ -3,11 +3,12 @@ import random
 import re
 import sys
 import numpy as np
+import bisect
+import collections
 
 DAMPING = 0.85
 SAMPLES = 10000
 EPSILON = 0.001
-
 
 def main():
     if len(sys.argv) != 2:
@@ -70,13 +71,28 @@ def transition_model(corpus, page, damping_factor):
     for page in rest:
         output[page] = 0.0
     addition = float((1-damping_factor)/len(all_pages))
-    sum = 0.0
+    # sum = 0.0
     for page in output:
         output[page] += addition
-        sum += output[page]
-    print(f"sum: {sum}")
+        # sum += output[page]
+    # print(f"sum: {sum}")
     return output
 
+def cdf(weights):
+    total = sum(weights)
+    result = []
+    cumsum = 0
+    for w in weights:
+        cumsum += w
+        result.append(cumsum / total)
+    return result
+
+def choice(population, weights):
+    assert len(population) == len(weights)
+    cdf_vals = cdf(weights)
+    x = random.random()
+    idx = bisect.bisect(cdf_vals, x)
+    return population[idx]
 
 def sample_pagerank(corpus, damping_factor, n):
     """
@@ -87,16 +103,17 @@ def sample_pagerank(corpus, damping_factor, n):
     their estimated PageRank value (a value between 0 and 1). All
     PageRank values should sum to 1.
     """
-    keys = corpus.keys()
-    output = dict(zip(keys, np.zeros(len(keys), dtype=np.float)))
+    keys = list(corpus.keys())
     page = random.choice(keys)
-    # gotta make this more efficient
+    counts = collections.defaultdict(int)
     for i in range(n):
-        distribution = transition_model(corpus, page, damping_factor)
+        model = transition_model(corpus, page, damping_factor)
+        page = choice(list(model.keys()), list(model.values()))
+        counts[page] += 1
+    return {k:float(v)/float(n) for (k,v) in counts.items()}
 
-    for k in output:
-        ouput[k] /= n
-    return ouput
+def is_converged(prev_pr, next_pr):
+    return all([(abs(next_pr[k] - v) <= EPSILON) for (k,v) in sorted(prev_pr.items())])
 
 
 def iterate_pagerank(corpus, damping_factor):
@@ -108,7 +125,24 @@ def iterate_pagerank(corpus, damping_factor):
     their estimated PageRank value (a value between 0 and 1). All
     PageRank values should sum to 1.
     """
-    raise NotImplementedError
+    keys = list(corpus.keys())
+    prev_pagerank = dict(zip(keys, np.ones(len(keys), dtype=np.float)/float(len(keys))))
+    reverse_corpus = {k: set() for k in keys}
+    random_val = (1-damping_factor)/float(len(keys))
+    for k,v in corpus.items():
+        for page in v:
+            reverse_corpus[page].add(k)
+    while True:
+        next_pagerank = {}
+        for k,v in prev_pagerank.items():
+            tmp = 0.0
+            for page in reverse_corpus[k]:
+                tmp += prev_pagerank[page]/len(corpus[page])
+            next_pagerank[k] = random_val + damping_factor * tmp
+        if (is_converged(prev_pagerank, next_pagerank)):
+            break
+        prev_pagerank = next_pagerank
+    return prev_pagerank
 
 
 if __name__ == "__main__":
