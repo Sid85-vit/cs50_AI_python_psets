@@ -117,7 +117,6 @@ def sample_pagerank(corpus, damping_factor, n):
 def is_converged(prev_pr, next_pr):
     return all([(abs(next_pr[k] - v) <= EPSILON) for (k,v) in sorted(prev_pr.items())])
 
-
 def iterate_pagerank(corpus, damping_factor):
     """
     Return PageRank values for each page by iteratively updating
@@ -141,6 +140,8 @@ def iterate_pagerank(corpus, damping_factor):
             for page in reverse_corpus[k]:
                 tmp += prev_pagerank[page]/len(corpus[page])
             next_pagerank[k] = random_val + damping_factor * tmp
+        summ = sum(next_pagerank.values())
+        next_pagerank = {k:(v/summ) for (k,v) in next_pagerank.items()}
         if (is_converged(prev_pagerank, next_pagerank)):
             break
         prev_pagerank = next_pagerank
