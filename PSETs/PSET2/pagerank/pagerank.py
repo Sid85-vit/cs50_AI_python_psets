@@ -50,6 +50,9 @@ def crawl(directory):
 
     return pages
 
+def normalize(output):
+    summ = sum(output.values())
+    return {k:(v/summ) for (k,v) in output.items()}
 
 def transition_model(corpus, page, damping_factor):
     """
@@ -60,26 +63,22 @@ def transition_model(corpus, page, damping_factor):
     linked to by `page`. With probability `1 - damping_factor`, choose
     a link at random chosen from all pages in the corpus.
     """
-    all_pages = corpus.keys()
+    all_pages = list(corpus.keys())
     direct_links = corpus[page]
     if (direct_links == {}):
-        return dict(zip(all_pages, np.ones(len(all_pages), dtype=np.float)/float(len(all_pages))))
-    direct_weights = damping_factor * np.ones(len(direct_links), dtype=np.float)/float(len(direct_links))
+        return dict(zip(all_pages, np.ones(len(all_pages), dtype=np.float)/len(all_pages)))
+    direct_weights = damping_factor * np.ones(len(direct_links), dtype=np.float)/len(direct_links)
     output = dict(zip(direct_links,direct_weights))
-    # I can do this much cleaner with np then doing the dict and zip later
     rest = set(all_pages) - set(direct_links)
     for page in rest:
         output[page] = 0.0
-    addition = float((1-damping_factor)/len(all_pages))
-    # sum = 0.0
-    for page in output:
-        output[page] += addition
-        # sum += output[page]
-    # print(f"sum: {sum}")
-    return output
+    addition = (1-damping_factor)/len(all_pages)
+    output = {k:v+addition for (k,v) in output.items()}
+    return normalize(output)
 
 
 # cdf and choice functions are from https://stackoverflow.com/questions/4113307/pythonic-way-to-select-list-elements-with-different-probability, never heard of the bisect method before applied to cumulative probability distributions, good stuff
+# an O(1) amortized way: https://gist.github.com/ntamas/1109133
 def cdf(weights):
     total = sum(weights)
     result = []
@@ -89,8 +88,7 @@ def cdf(weights):
         result.append(cumsum / total)
     return result
 
-def choice(population, weights):
-    assert len(population) == len(weights)
+def choose(population, weights):
     cdf_vals = cdf(weights)
     x = random.random()
     idx = bisect.bisect(cdf_vals, x)
@@ -110,9 +108,9 @@ def sample_pagerank(corpus, damping_factor, n):
     counts = collections.defaultdict(int)
     for i in range(n):
         model = transition_model(corpus, page, damping_factor)
-        page = choice(list(model.keys()), list(model.values()))
+        page = choose(list(model.keys()), list(model.values()))
         counts[page] += 1
-    return {k:float(v)/float(n) for (k,v) in counts.items()}
+    return {k:float(v)/n for (k,v) in counts.items()}
 
 def is_converged(prev_pr, next_pr):
     return all([(abs(next_pr[k] - v) <= EPSILON) for (k,v) in sorted(prev_pr.items())])
@@ -127,9 +125,9 @@ def iterate_pagerank(corpus, damping_factor):
     PageRank values should sum to 1.
     """
     keys = list(corpus.keys())
-    prev_pagerank = dict(zip(keys, np.ones(len(keys), dtype=np.float)/float(len(keys))))
+    prev_pagerank = dict(zip(keys, np.ones(len(keys), dtype=np.float)/len(keys)))
     reverse_corpus = {k: set() for k in keys}
-    random_val = (1-damping_factor)/float(len(keys))
+    random_val = (1-damping_factor)/len(keys)
     for k,v in corpus.items():
         for page in v:
             reverse_corpus[page].add(k)
@@ -140,8 +138,7 @@ def iterate_pagerank(corpus, damping_factor):
             for page in reverse_corpus[k]:
                 tmp += prev_pagerank[page]/len(corpus[page])
             next_pagerank[k] = random_val + damping_factor * tmp
-        summ = sum(next_pagerank.values())
-        next_pagerank = {k:(v/summ) for (k,v) in next_pagerank.items()}
+        next_pagerank = normalize(next_pagerank)
         if (is_converged(prev_pagerank, next_pagerank)):
             break
         prev_pagerank = next_pagerank
