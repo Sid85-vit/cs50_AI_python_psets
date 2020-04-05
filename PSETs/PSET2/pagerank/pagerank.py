@@ -2,9 +2,11 @@ import os
 import random
 import re
 import sys
+import numpy as np
 
 DAMPING = 0.85
 SAMPLES = 10000
+EPSILON = 0.001
 
 
 def main():
@@ -57,7 +59,23 @@ def transition_model(corpus, page, damping_factor):
     linked to by `page`. With probability `1 - damping_factor`, choose
     a link at random chosen from all pages in the corpus.
     """
-    raise NotImplementedError
+    all_pages = corpus.keys()
+    direct_links = corpus[page]
+    if (direct_links == {}):
+        return dict(zip(all_pages, np.ones(len(all_pages), dtype=np.float)/float(len(all_pages))))
+    direct_weights = damping_factor * np.ones(len(direct_links), dtype=np.float)/float(len(direct_links))
+    output = dict(zip(direct_links,direct_weights))
+    # I can do this much cleaner with np then doing the dict and zip later
+    rest = set(all_pages) - set(direct_links)
+    for page in rest:
+        output[page] = 0.0
+    addition = float((1-damping_factor)/len(all_pages))
+    sum = 0.0
+    for page in output:
+        output[page] += addition
+        sum += output[page]
+    print(f"sum: {sum}")
+    return output
 
 
 def sample_pagerank(corpus, damping_factor, n):
@@ -69,7 +87,16 @@ def sample_pagerank(corpus, damping_factor, n):
     their estimated PageRank value (a value between 0 and 1). All
     PageRank values should sum to 1.
     """
-    raise NotImplementedError
+    keys = corpus.keys()
+    output = dict(zip(keys, np.zeros(len(keys), dtype=np.float)))
+    page = random.choice(keys)
+    # gotta make this more efficient
+    for i in range(n):
+        distribution = transition_model(corpus, page, damping_factor)
+
+    for k in output:
+        ouput[k] /= n
+    return ouput
 
 
 def iterate_pagerank(corpus, damping_factor):
