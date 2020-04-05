@@ -78,6 +78,8 @@ def transition_model(corpus, page, damping_factor):
     # print(f"sum: {sum}")
     return output
 
+
+# cdf and choice functions are from https://stackoverflow.com/questions/4113307/pythonic-way-to-select-list-elements-with-different-probability, never heard of the bisect method before applied to cumulative probability distributions, good stuff
 def cdf(weights):
     total = sum(weights)
     result = []
