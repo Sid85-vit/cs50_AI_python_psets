@@ -151,13 +151,14 @@ def update(probabilities, one_gene, two_genes, have_trait, p):
     """
     raise NotImplementedError
 
-
 def normalize(probabilities):
-    """
-    Update `probabilities` such that each probability distribution
-    is normalized (i.e., sums to 1, with relative proportions the same).
-    """
-    raise NotImplementedError
+    for (person,description) in probabilities.items():
+        gene_sum = sum((description["gene"]).values())
+        for k in probabilities[person]["gene"].keys():
+            probabilities[person]["gene"][k] /= gene_sum
+        trait_sum = sum((description["trait"]).values())
+        for k in probabilities[person]["trait"].keys():
+            probabilities[person]["trait"][k] /= trait_sum
 
 
 if __name__ == "__main__":
