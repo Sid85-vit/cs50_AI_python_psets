@@ -125,4 +125,5 @@ dmypy.json
 *.webm
 
 
-PSETs/PSET5/gtsrb
+PSETs/PSET5/traffic/gtsrb
+PSETs/PSET5/traffic/gtsrb-small/

@@ -3,13 +3,16 @@ import numpy as np
 import os
 import sys
 import tensorflow as tf
+from tensorflow.keras.layers import Input, Conv2D, BatchNormalization, ReLU, Add, MaxPool2D, GlobalAvgPool2D, Dense
+from tensorflow.keras import Model
 
 from sklearn.model_selection import train_test_split
 
 EPOCHS = 10
 IMG_WIDTH = 30
 IMG_HEIGHT = 30
-NUM_CATEGORIES = 43
+# NUM_CATEGORIES = 43
+NUM_CATEGORIES = 3
 TEST_SIZE = 0.4
 
 
@@ -28,6 +31,10 @@ def main():
         np.array(images), np.array(labels), test_size=TEST_SIZE
     )
 
+    # normalize
+    x_train, x_test = x_train/255.0, x_test/255.0
+    print('here: ', x_train[0])
+
     # Get a compiled neural network
     model = get_model()
 
@@ -45,21 +52,60 @@ def main():
 
 
 def load_data(data_dir):
-    """
-    Load image data from directory `data_dir`.
+    # https://realpython.com/working-with-files-in-python/
+    # https://stackoverflow.com/questions/7762948/how-to-convert-an-rgb-image-to-numpy-array
+    # https://www.tutorialkart.com/opencv/python/opencv-python-resize-image/
+    images = []
+    labels = []
+    with os.scandir(data_dir) as dirs:
+        for d in dirs:
+            if (os.path.isdir(d)):
+                with os.scandir(d) as files:
+                    for f in files:
+                        if (os.path.isfile(f)):
+                            category = d.name
+                            img = cv2.imread(f"{data_dir}/{category}/{f.name}", cv2.IMREAD_UNCHANGED)
+                            img = cv2.resize(img, (IMG_WIDTH, IMG_HEIGHT), cv2.INTER_AREA)
+                            images.append(img)
+                            labels.append(category)
+    return (images, labels)
 
-    Assume `data_dir` has one directory named after each category, numbered
-    0 through NUM_CATEGORIES - 1. Inside each category directory will be some
-    number of image files.
+def conv_batchnorm_relu(x, filters, kernel_size, strides=1):
+    x = Conv2D(filters=filters, kernel_size=kernel_size, strides=strides, padding='same')(x)
+    x = BatchNormalization()(x)
+    x = ReLU()(x)
+    return x
 
-    Return tuple `(images, labels)`. `images` should be a list of all
-    of the images in the data directory, where each image is formatted as a
-    numpy ndarray with dimensions IMG_WIDTH x IMG_HEIGHT x 3. `labels` should
-    be a list of integer labels, representing the categories for each of the
-    corresponding `images`.
-    """
-    raise NotImplementedError
+def identity_block(tensor, filters):
+    x = conv_batchnorm_relu(tensor, filters=filters, kernel_size=1, strides=1)
+    x = conv_batchnorm_relu(x, filters=filters, kernel_size=3, strides=1)
+    x = Conv2D(filters=4*filters, kernel_size=1, strides=1)(x)
+    x = BatchNormalization()(x)
+    
+    x = Add()([tensor,x])
+    x = ReLU()(x)
+    return x
 
+def projection_block(tensor, filters, strides):
+    # left stream
+    x = conv_batchnorm_relu(tensor, filters=filters, kernel_size=1, strides=strides)
+    x = conv_batchnorm_relu(x, filters=filters, kernel_size=3, strides=1)
+    x = Conv2D(filters=4*filters, kernel_size=1, strides=1)(x)
+    x = BatchNormalization()(x)
+    
+    #right stream
+    shortcut = Conv2D(filters=4*filters, kernel_size=1, strides=strides)(tensor)
+    shortcut = BatchNormalization()(shortcut)
+    x = Add()([shortcut,x])
+    x = ReLU()(x)
+    
+    return x
+
+def resnet_block(x, filters, reps, strides):
+    x = projection_block(x, filters, strides)
+    for _ in range(reps-1):
+        x = identity_block(x, filters)
+    return x
 
 def get_model():
     """
@@ -67,7 +113,29 @@ def get_model():
     `input_shape` of the first layer is `(IMG_WIDTH, IMG_HEIGHT, 3)`.
     The output layer should have `NUM_CATEGORIES` units, one for each category.
     """
-    raise NotImplementedError
+    # choosing a resnet architecture
+    # start = Input(shape=(IMG_WIDTH,IMG_HEIGHT,3))
+    # x = conv_batchnorm_relu(start, filters=64, kernel_size=7, strides=2)
+    # x = MaxPool2D(pool_size=3, strides=2)(x)
+    # x = resnet_block(x, filters=64, reps=3, strides=1)
+    # x = resnet_block(x, filters=128, reps=4, strides=2)
+    # x = resnet_block(x, filters=256, reps=6, strides=2)
+    # x = resnet_block(x, filters=512, reps=3, strides=2)
+    # x = GlobalAvgPool2D()(x)
+    # output = Dense(units=NUM_CATEGORIES, activation='softmax')(x)
+
+    # model = Model(inputs=start, outputs=output)
+
+    model = tf.keras.models.Sequential([
+        tf.keras.layers.Flatten(input_shape=(IMG_WIDTH,IMG_HEIGHT,3)),
+        tf.keras.layers.Dense(128, activation='relu'),
+        tf.keras.layers.Dropout(0.2),
+        tf.keras.layers.Dense(NUM_CATEGORIES, activation='softmax')
+    ])
+
+    model.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['accuracy'])
+
+    return model
 
 
 if __name__ == "__main__":
