@@ -114,6 +114,15 @@ def get_model():
     The output layer should have `NUM_CATEGORIES` units, one for each category.
     """
     # choosing a resnet architecture
+    
+    # training on the small dataset gets nearly 100% train acc but ~15% test acc, haha, overfitting
+    # just trained on the full dataset, 77% train acc, 74% test acc, seems data has a 
+    # regularizing/generalizing effect, which is expected since there are orders of magnitude more
+    # parameters than data
+
+    # need data augmentation and regularization
+    # how is keras initializing the weights and biases?
+
     start = Input(shape=(IMG_WIDTH,IMG_HEIGHT,3))
     x = conv_batchnorm_relu(start, filters=64, kernel_size=7, strides=2)
     x = MaxPool2D(pool_size=3, strides=2)(x)
