@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<!-- saved from url=(0046)https://cs50.harvard.edu/ai/projects/6/parser/ -->
+<html lang="en-us"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><meta property="og:description" content="This course explores the concepts and algorithms at the foundation of modern artificial intelligence, diving into the ideas that give rise to technologies like game-playing engines, handwriting recognition, and machine translation. Through hands-on projects, students gain exposure to the theory behind graph search algorithms, classification, optimization, reinforcement learning, and other topics in artificial intelligence and machine learning as they incorporate them into their own Python programs. By course&#39;s end, students emerge with experience in libraries for machine learning as well as knowledge of artificial intelligence principles that enable them to design intelligent systems of their own.">
+
+<meta property="og:image" content="https://img.youtube.com/vi/TA5ZJm1ZYS4/maxresdefault.jpg"><meta property="og:title" content="Project 6a: Parser - CS50&#39;s Introduction to Artificial Intelligence with Python">
+
+<meta property="og:url" content=""><link href="https://cs50.harvard.edu/ai/favicon.ico?1587347988" rel="icon">
+
+<!-- https://fontawesome.com/how-to-use/on-the-web/referencing-icons/basic-use -->
+<link href="./Parser - CS50&#39;s Introduction to Artificial Intelligence with Python_files/all.min.css" rel="stylesheet">
+
+<link href="./Parser - CS50&#39;s Introduction to Artificial Intelligence with Python_files/page.css" rel="stylesheet">
+
+<!-- http://getbootstrap.com/docs/4.3/getting-started/introduction/ -->
+<script src="./Parser - CS50&#39;s Introduction to Artificial Intelligence with Python_files/jquery.min.js"></script>
+<script src="./Parser - CS50&#39;s Introduction to Artificial Intelligence with Python_files/popper.min.js"></script>
+<script src="./Parser - CS50&#39;s Introduction to Artificial Intelligence with Python_files/bootstrap.min.js"></script>
+
+<!-- https://github.com/pellepim/jstimezonedetect -->
+<script src="./Parser - CS50&#39;s Introduction to Artificial Intelligence with Python_files/jstz.min.js"></script>
+
+<!-- https://momentjs.com/, https://momentjs.com/timezone/ -->
+<script src="./Parser - CS50&#39;s Introduction to Artificial Intelligence with Python_files/moment.min.js"></script>
+<script src="./Parser - CS50&#39;s Introduction to Artificial Intelligence with Python_files/moment-timezone-with-data.min.js"></script>
+
+
+
+<script src="./Parser - CS50&#39;s Introduction to Artificial Intelligence with Python_files/jekyll-theme-cs50.js"></script>
+
+<title>Project 6a: Parser - CS50's Introduction to Artificial Intelligence with Python</title>
+</head>
+
+    <body>
+
+        <div class="container-fluid">
+
+            <div class="row">
+
+                <aside class="col-md">
+ 
+                    <header><h1 data-id="cs50sintroduction-to-artificial-intelligence-with-python"><a href="https://cs50.harvard.edu/ai/">CS50’s<br>Introduction to Artificial Intelligence with Python</a></h1>
+
+<p>OpenCourseWare</p>
+
+<p><a href="https://brianyu.me/">Brian Yu</a><br>
+<a href="mailto:brian@cs.harvard.edu">brian@cs.harvard.edu</a></p>
+
+<p><a href="https://cs.harvard.edu/malan/">David J. Malan</a><br>
+<a href="mailto:malan@harvard.edu">malan@harvard.edu</a><br>
+<a href="https://www.facebook.com/dmalan" class="pr-1"><i class="fab fa-facebook-f"></i></a>
+<a href="https://github.com/dmalan" class="pr-1"><i class="fab fa-github"></i></a>
+<a href="https://www.instagram.com/davidjmalan/" class="pr-1"><i class="fab fa-instagram"></i></a>
+<a href="https://www.linkedin.com/in/malan/" class="pr-1"><i class="fab fa-linkedin-in"></i></a>
+<a href="https://www.quora.com/profile/David-J-Malan" class="pr-1"><i class="fab fa-quora"></i></a>
+<a href="https://twitter.com/davidjmalan" class="pr-1"><i class="fab fa-twitter"></i></a></p></header>
+
+                    
+
+                    <button aria-controls="nav" aria-expanded="false" class="btn btn-sm collapsed d-md-none" data-target="aside &gt; nav" data-toggle="collapse">
+                        Menu
+                    </button>
+
+                    <nav class="collapse d-md-block"><hr>
+
+<ol start="0">
+  <li><a href="https://cs50.harvard.edu/ai/weeks/0/">Search</a></li>
+  <li><a href="https://cs50.harvard.edu/ai/weeks/1/">Knowledge</a></li>
+  <li><a href="https://cs50.harvard.edu/ai/weeks/2/">Uncertainty</a></li>
+  <li><a href="https://cs50.harvard.edu/ai/weeks/3/">Optimization</a></li>
+  <li><a href="https://cs50.harvard.edu/ai/weeks/4/">Learning</a></li>
+  <li><a href="https://cs50.harvard.edu/ai/weeks/5/">Neural Networks</a></li>
+  <li><a href="https://cs50.harvard.edu/ai/weeks/6/">Language</a></li>
+</ol>
+
+<hr>
+
+<p><a href="https://cs50.harvard.edu/ai/certificate/">CS50 Certificate</a></p>
+
+<hr>
+
+<ul class="fa-ul">
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-circle"></i></span><a href="https://cs50.harvard.edu/ai/ed">Ed Discussion</a> for Q&amp;A</li>
+  <li data-marker="*" class="small"><span class="fa-li"><i class="fas fa-circle"></i></span><a href="https://cs50.harvard.edu/ai/quickstart.pdf">Quick Start Guide</a></li>
+</ul>
+
+<hr>
+
+<ul class="small fa-ul">
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-circle"></i></span><a href="https://cs50.edx.org/ai">edX</a></li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-circle"></i></span><a href="https://itunes.apple.com/us/course/cs50s-introduction-to-artificial-intelligence-with-python/id1505432709">iTunes U</a></li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-circle"></i></span><a href="https://www.youtube.com/playlist?list=PLhQjrBD2T382Nz7z1AEXmioc27axa19Kv">YouTube</a></li>
+</ul>
+
+<hr>
+
+<ul class="small fa-ul">
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-circle"></i></span><a href="https://discord.gg/T8QZqRx">Discord</a></li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-circle"></i></span><a href="https://www.facebook.com/groups/cs50/">Facebook Group</a></li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-circle"></i></span><a href="https://www.facebook.com/cs50/">Facebook Page</a></li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-circle"></i></span><a href="https://instagram.com/cs50">Instagram</a></li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-circle"></i></span><a href="https://www.linkedin.com/groups/7437240/">LinkedIn Group</a></li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-circle"></i></span><a href="https://www.quora.com/topic/CS50">Quora</a></li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-circle"></i></span><a href="https://www.snapchat.com/add/cs50">Snapchat</a></li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-circle"></i></span><a href="https://twitter.com/cs50">Twitter</a></li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-circle"></i></span><a href="http://www.youtube.com/subscription_center?add_user=cs50tv">YouTube</a></li>
+</ul>
+
+<hr>
+
+<p><a href="https://cs50.harvardshop.com/"><img src="./Parser - CS50&#39;s Introduction to Artificial Intelligence with Python_files/THS logo all white (2).png" alt="Harvard Shop"></a></p>
+
+<hr></nav>
+
+                    <footer><p><a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" class="small">CC BY-NC-SA 4.0</a></p></footer>
+
+                </aside>
+
+                <main class="col-md markdown-body" style="margin-bottom: 83px;">
+
+                    <h1 id="project-6a-parser"><a data-id="" href="https://cs50.harvard.edu/ai/projects/6/parser/#project-6a-parser">Project 6a: Parser</a></h1>
+
+<p>Write an AI to parse sentences and extract noun phrases.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ python parser.py
+Sentence: Holmes sat.
+        S
+   _____|___
+  NP        VP
+  |         |
+  N         V
+  |         |
+holmes     sat
+
+Noun Phrase Chunks
+holmes
+</code></pre></div></div>
+
+<h2 id="when-to-do-it"><a data-id="" href="https://cs50.harvard.edu/ai/projects/6/parser/#when-to-do-it">When to Do It</a></h2>
+
+<p>By <span data-local="2020-12-31T23:59:00-05:00">Thu, Dec 31, 2020 11:59 PM EST</span>.</p>
+
+<h2 id="how-to-get-help"><a data-id="" href="https://cs50.harvard.edu/ai/projects/6/parser/#how-to-get-help">How to Get Help</a></h2>
+
+<ol>
+  <li>Ask questions on Ed!</li>
+  <li>Ask questions on CS50’s various online fora!</li>
+</ol>
+
+<h2 id="background"><a data-id="" href="https://cs50.harvard.edu/ai/projects/6/parser/#background">Background</a></h2>
+
+<p>A common task in natural language processing is parsing, the process of determining the structure of a sentence. This is useful for a number of reasons: knowing the structure of a sentence can help a computer to better understand the meaning of the sentence, and it can also help the computer extract information out of a sentence. In particular, it’s often useful to extract noun phrases out of a sentence to get an understanding for what the sentence is about.</p>
+
+<p>In this problem, we’ll use the context-free grammar formalism to parse English sentences to determine their structure. Recall that in a context-free grammar, we repeatedly apply rewriting rules to transform symbols into other symbols. The objective is to start with a nonterminal symbol <code class="highlighter-rouge">S</code> (representing a sentence) and repeatedly apply context-free grammar rules until we generate a complete sentence of terminal symbols (i.e., words). The rule <code class="highlighter-rouge">S -&gt; N V</code>, for example, means that the <code class="highlighter-rouge">S</code> symbol can be rewritten as <code class="highlighter-rouge">N V</code> (a noun followed by a verb). If we also have the rule <code class="highlighter-rouge">N -&gt; "Holmes"</code> and the rule <code class="highlighter-rouge">V -&gt; "sat"</code>, we can generate the complete sentence <code class="highlighter-rouge">"Holmes sat."</code>.</p>
+
+<p>Of course, noun phrases might not always be as simple as a single word like <code class="highlighter-rouge">"Holmes"</code>. We might have noun phrases like <code class="highlighter-rouge">"my companion"</code> or <code class="highlighter-rouge">"a country walk"</code> or <code class="highlighter-rouge">"the day before Thursday"</code>, which require more complex rules to account for. To account for the phrase <code class="highlighter-rouge">"my companion"</code>, for example, we might imagine a rule like:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>NP -&gt; N | Det N
+</code></pre></div></div>
+
+<p>In this rule, we say that an <code class="highlighter-rouge">NP</code> (a “noun phrase”) could be either just a noun (<code class="highlighter-rouge">N</code>) or a determiner (<code class="highlighter-rouge">Det</code>) followed by a noun, where determiners include words like <code class="highlighter-rouge">"a"</code>, <code class="highlighter-rouge">"the"</code>, and <code class="highlighter-rouge">"my"</code>. The vertical bar (<code class="highlighter-rouge">|</code>) just indicates that there are multiple possible ways to rewrite an <code class="highlighter-rouge">NP</code>, with each possible rewrite separated by a bar.</p>
+
+<p>To incorporate this rule into how we parse a sentence (<code class="highlighter-rouge">S</code>), we’ll also need to modify our <code class="highlighter-rouge">S -&gt; N V</code> rule to allow for noun phrases (<code class="highlighter-rouge">NP</code>s) as the subject of our sentence. See how? And to account for more complex types of noun phrases, we may need to modify our grammar even further.</p>
+
+<h2 id="getting-started"><a data-id="" href="https://cs50.harvard.edu/ai/projects/6/parser/#getting-started">Getting Started</a></h2>
+
+<ul class="fa-ul">
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-circle"></i></span>Download the distribution code from <a href="https://cdn.cs50.net/ai/2020/x/projects/6/parser.zip">https://cdn.cs50.net/ai/2020/x/projects/6/parser.zip</a> and unzip it.</li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-circle"></i></span>Inside of the <code class="highlighter-rouge">parser</code> directory, run <code class="highlighter-rouge">pip3 install -r requirements.txt</code> to install this project’s dependency: <code class="highlighter-rouge">nltk</code> for natural language processing.</li>
+</ul>
+
+<h2 id="understanding"><a data-id="" href="https://cs50.harvard.edu/ai/projects/6/parser/#understanding">Understanding</a></h2>
+
+<p>First, look at the text files in the <code class="highlighter-rouge">sentences</code> directory. Each file contains an English sentence. Your goal in this problem is to write a parser that is able to parse all of these sentences.</p>
+
+<p>Take a look now at <code class="highlighter-rouge">parser.py</code>, and notice the context free grammar rules defined at the top of the file. We’ve already defined for you a set of rules for generating terminal symbols (in the global variable <code class="highlighter-rouge">TERMINALS</code>). Notice that <code class="highlighter-rouge">Adj</code> is a nonterminal symbol that generates adjectives, <code class="highlighter-rouge">Adv</code> generates adjectives, <code class="highlighter-rouge">Conj</code> generates conjunctions, <code class="highlighter-rouge">Det</code> generates determiners, <code class="highlighter-rouge">N</code> generates nouns (spread across multiple lines for readability), <code class="highlighter-rouge">P</code> generates prepositions, and <code class="highlighter-rouge">V</code> generates verbs.</p>
+
+<p>Next is the definition of <code class="highlighter-rouge">NONTERMINALS</code>, which will contain all of the context-free grammar rules for generating nonterminal symbols. Right now, there’s just a single rule: <code class="highlighter-rouge">S -&gt; N V</code>. With just that rule, we can generate sentences like <code class="highlighter-rouge">"Holmes arrived."</code> or <code class="highlighter-rouge">"He chuckled."</code>, but not sentences more complex than that. Editing the <code class="highlighter-rouge">NONTERMINALS</code> rules so that all of the sentences can be parsed will be up to you!</p>
+
+<p>Next, take a look at the <code class="highlighter-rouge">main</code> function. It first accepts a sentence as input, either from a file or via user input. The sentence is preprocessed (via the <code class="highlighter-rouge">preprocess</code> function) and then parsed according to the context-free grammar defined by the file. The resulting trees are printed out, and all of the “noun phrase chunks” (defined in the Specification) are printed as well (via the <code class="highlighter-rouge">np_chunk</code> function).</p>
+
+<p>In addition to writing context-free grammar rules for parsing these sentences, the <code class="highlighter-rouge">preprocess</code> and <code class="highlighter-rouge">np_chunk</code> functions are left up to you!</p>
+
+<h2 id="specification"><a data-id="" href="https://cs50.harvard.edu/ai/projects/6/parser/#specification">Specification</a></h2>
+
+<p>Complete the implementation of <code class="highlighter-rouge">preprocess</code> and <code class="highlighter-rouge">np_chunk</code>, and complete the context-free grammar rules defined in <code class="highlighter-rouge">NONTERMINALS</code>.</p>
+
+<ul class="fa-ul">
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-circle"></i></span>The <code class="highlighter-rouge">preprocess</code> function should accept a <code class="highlighter-rouge">sentence</code> as input and return a lowercased list of its words.
+    <ul class="fa-ul">
+      <li data-marker="*"><span class="fa-li"><i class="fas fa-circle"></i></span>You may assume that <code class="highlighter-rouge">sentence</code> will be a string.</li>
+      <li data-marker="*"><span class="fa-li"><i class="fas fa-circle"></i></span>You should use <code class="highlighter-rouge">nltk</code>’s <a href="https://www.nltk.org/api/nltk.tokenize.html#nltk.tokenize.punkt.PunktLanguageVars.word_tokenize"><code class="highlighter-rouge">word_tokenize</code></a> function to perform tokenization.</li>
+      <li data-marker="*"><span class="fa-li"><i class="fas fa-circle"></i></span>Your function should return a list of words, where each word is a lowercased string.</li>
+      <li data-marker="*"><span class="fa-li"><i class="fas fa-circle"></i></span>Any word that doesn’t contain at least one alphabetic character (e.g. <code class="highlighter-rouge">.</code> or <code class="highlighter-rouge">28</code>) should be excluded from the returned list.</li>
+    </ul>
+  </li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-circle"></i></span>The <code class="highlighter-rouge">NONTERMINALS</code> global variable should be replaced with a set of context-free grammar rules that, when combined with the rules in <code class="highlighter-rouge">TERMINALS</code>, allow the parsing of all sentences in the <code class="highlighter-rouge">sentences/</code> directory.
+    <ul class="fa-ul">
+      <li data-marker="*"><span class="fa-li"><i class="fas fa-circle"></i></span>Each rules must be on its own line. Each rule must include the <code class="highlighter-rouge">-&gt;</code> characters to denote which symbol is being replaced, and may optionally include <code class="highlighter-rouge">|</code> symbols if there are multiple ways to rewrite a symbol.</li>
+      <li data-marker="*"><span class="fa-li"><i class="fas fa-circle"></i></span>You do not need to keep the existing rule <code class="highlighter-rouge">S -&gt; N V</code> in your solution, but your first rule must begin with <code class="highlighter-rouge">S -&gt;</code> since <code class="highlighter-rouge">S</code> (representing a sentence) is the starting symbol.</li>
+      <li data-marker="*"><span class="fa-li"><i class="fas fa-circle"></i></span>You may add as many nonterminal symbols as you would like.</li>
+      <li data-marker="*"><span class="fa-li"><i class="fas fa-circle"></i></span>Use the nonterminal symbol <code class="highlighter-rouge">NP</code> to represent a “noun phrase”, such as the subject of a sentence.</li>
+    </ul>
+  </li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-circle"></i></span>The <code class="highlighter-rouge">np_chunk</code> function should accept a <code class="highlighter-rouge">tree</code> representing the syntax of a sentence, and return a list of all of the noun phrase chunks in that sentence.
+    <ul class="fa-ul">
+      <li data-marker="*"><span class="fa-li"><i class="fas fa-circle"></i></span>For this problem, a “noun phrase chunk” is defined as a noun phrase that doesn’t contain other noun phrases within it. Put more formally, a noun phrase chunk is a subtree of the original tree whose label is <code class="highlighter-rouge">NP</code> and that does not itself contain other noun phrases as subtrees.
+        <ul class="fa-ul">
+          <li data-marker="*"><span class="fa-li"><i class="fas fa-circle"></i></span>For example, if <code class="highlighter-rouge">"the home"</code> is a noun phrase chunk, then <code class="highlighter-rouge">"the armchair in the home"</code> is not a noun phrase chunk, because the latter contains the former as a subtree.</li>
+        </ul>
+      </li>
+      <li data-marker="*"><span class="fa-li"><i class="fas fa-circle"></i></span>You may assume that the input will be a <code class="highlighter-rouge">nltk.tree</code> object whose label is <code class="highlighter-rouge">S</code> (that is to say, the input will be a tree representing a sentence).</li>
+      <li data-marker="*"><span class="fa-li"><i class="fas fa-circle"></i></span>Your function should return a list of <code class="highlighter-rouge">nltk.tree</code> objects, where each element has the label <code class="highlighter-rouge">NP</code>.</li>
+      <li data-marker="*"><span class="fa-li"><i class="fas fa-circle"></i></span>You will likely find the documentation for <a href="https://www.nltk.org/_modules/nltk/tree.html"><code class="highlighter-rouge">nltk.tree</code></a> helpful for identifying how to manipulate a <code class="highlighter-rouge">nltk.tree</code> object.</li>
+    </ul>
+  </li>
+</ul>
+
+<p>You should not modify anything else in <code class="highlighter-rouge">parser.py</code> other than the functions the specification calls for you to implement, though you may write additional functions and/or import other Python standard library modules. You will need to modify the definition of <code class="highlighter-rouge">NONTERMINALS</code>, but you should not modify the definition of <code class="highlighter-rouge">TERMINALS</code>.</p>
+
+<h2 id="hints"><a data-id="" href="https://cs50.harvard.edu/ai/projects/6/parser/#hints">Hints</a></h2>
+
+<ul class="fa-ul">
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-circle"></i></span>It’s to be expected that your parser may generate some sentences that you believe are not syntactically or semantically well-formed. You need not worry, therefore, if your parser allows for parsing meaningless sentences like <code class="highlighter-rouge">"His Thursday chuckled in a paint."</code>
+    <ul class="fa-ul">
+      <li data-marker="*"><span class="fa-li"><i class="fas fa-circle"></i></span>That said, you should avoid over-generation of sentences where possible. For example, your parser should definitely not accept sentences like <code class="highlighter-rouge">"Armchair on the sat Holmes."</code></li>
+      <li data-marker="*"><span class="fa-li"><i class="fas fa-circle"></i></span>You should also avoid under-generation of sentences. A rule like <code class="highlighter-rouge">S -&gt; N V Det Adj Adj Adj N P Det N P Det N</code> would technically successfully generate sentence 10, but not in a way that is particularly useful or generalizable.</li>
+    </ul>
+  </li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-circle"></i></span>Within the <a href="https://www.nltk.org/_modules/nltk/tree.html"><code class="highlighter-rouge">nltk.tree</code></a> documentation, you may find the <code class="highlighter-rouge">label</code> and <code class="highlighter-rouge">subtrees</code> functions particularly useful.</li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-circle"></i></span>To focus on testing your parser before working on noun phrase chunking, it may be helpful to temporarily have <code class="highlighter-rouge">np_chunk</code> simply return an empty list <code class="highlighter-rouge">[]</code>, so that your program can operate without noun phrase chunking while you test the other parts of your program.</li>
+</ul>
+
+<h2 id="how-to-submit"><a data-id="" href="https://cs50.harvard.edu/ai/projects/6/parser/#how-to-submit">How to Submit</a></h2>
+
+<ol>
+  <li>Visit <a href="https://submit.cs50.io/invites/8f7fa48876984cda98a73ba53bcf01fd">this link</a>, log in with your GitHub account, and click <strong>Authorize cs50</strong>. Then, check the box indicating that you’d like to grant course staff access to your submissions, and click <strong>Join course</strong>.</li>
+  <li><a href="https://git-scm.com/downloads">Install Git</a> and, optionally, <a href="https://cs50.readthedocs.io/submit50/">install <code class="highlighter-rouge">submit50</code></a>.</li>
+  <li>If you’ve installed <code class="highlighter-rouge">submit50</code>, execute
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>submit50 ai50/projects/2020/x/parser
+</code></pre></div>    </div>
+    <p>Otherwise, using Git, push your work to <code class="highlighter-rouge">https://github.com/me50/USERNAME.git</code>, where <code class="highlighter-rouge">USERNAME</code> is your GitHub username, on a branch called <code class="highlighter-rouge">ai50/projects/2020/x/parser</code>.</p>
+  </li>
+  <li><a href="https://www.howtogeek.com/205742/how-to-record-your-windows-mac-linux-android-or-ios-screen/">Record a 1- to 5-minute screencast</a> in which you demonstrate your project’s functionality. Be certain that every element of the specification, above, is demonstrated in your video. There’s no need to show your code, just your application in action; we’ll review your code on GitHub. <a href="https://www.youtube.com/upload">Upload that video to YouTube</a> (as unlisted or public, but not private) or somewhere else.</li>
+  <li>Submit <a href="https://forms.cs50.io/d52c68b0-819c-46b1-8c91-6ac4c52dae03">this form</a>.</li>
+</ol>
+
+<p>You can then go to <a href="https://cs50.me/cs50ai">https://cs50.me/cs50ai</a> to view your current progress!</p>
+
+
+                </main>
+
+            </div>
+
+        </div>
+
+        
+ 
+    
+
+
+</body></html>

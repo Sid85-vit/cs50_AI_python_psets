@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<!-- saved from url=(0049)https://cs50.harvard.edu/ai/projects/6/questions/ -->
+<html lang="en-us"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><meta property="og:description" content="This course explores the concepts and algorithms at the foundation of modern artificial intelligence, diving into the ideas that give rise to technologies like game-playing engines, handwriting recognition, and machine translation. Through hands-on projects, students gain exposure to the theory behind graph search algorithms, classification, optimization, reinforcement learning, and other topics in artificial intelligence and machine learning as they incorporate them into their own Python programs. By course&#39;s end, students emerge with experience in libraries for machine learning as well as knowledge of artificial intelligence principles that enable them to design intelligent systems of their own.">
+
+<meta property="og:image" content="https://img.youtube.com/vi/TA5ZJm1ZYS4/maxresdefault.jpg"><meta property="og:title" content="Project 6b: Questions - CS50&#39;s Introduction to Artificial Intelligence with Python">
+
+<meta property="og:url" content=""><link href="https://cs50.harvard.edu/ai/favicon.ico?1587347988" rel="icon">
+
+<!-- https://fontawesome.com/how-to-use/on-the-web/referencing-icons/basic-use -->
+<link href="./Questions - CS50&#39;s Introduction to Artificial Intelligence with Python_files/all.min.css" rel="stylesheet">
+
+<link href="./Questions - CS50&#39;s Introduction to Artificial Intelligence with Python_files/page.css" rel="stylesheet">
+
+<!-- http://getbootstrap.com/docs/4.3/getting-started/introduction/ -->
+<script src="./Questions - CS50&#39;s Introduction to Artificial Intelligence with Python_files/jquery.min.js"></script>
+<script src="./Questions - CS50&#39;s Introduction to Artificial Intelligence with Python_files/popper.min.js"></script>
+<script src="./Questions - CS50&#39;s Introduction to Artificial Intelligence with Python_files/bootstrap.min.js"></script>
+
+<!-- https://github.com/pellepim/jstimezonedetect -->
+<script src="./Questions - CS50&#39;s Introduction to Artificial Intelligence with Python_files/jstz.min.js"></script>
+
+<!-- https://momentjs.com/, https://momentjs.com/timezone/ -->
+<script src="./Questions - CS50&#39;s Introduction to Artificial Intelligence with Python_files/moment.min.js"></script>
+<script src="./Questions - CS50&#39;s Introduction to Artificial Intelligence with Python_files/moment-timezone-with-data.min.js"></script>
+
+
+
+<script src="./Questions - CS50&#39;s Introduction to Artificial Intelligence with Python_files/jekyll-theme-cs50.js"></script>
+
+<title>Project 6b: Questions - CS50's Introduction to Artificial Intelligence with Python</title>
+</head>
+
+    <body>
+
+        <div class="container-fluid">
+
+            <div class="row">
+
+                <aside class="col-md">
+ 
+                    <header><h1 data-id="cs50sintroduction-to-artificial-intelligence-with-python"><a href="https://cs50.harvard.edu/ai/">CS50’s<br>Introduction to Artificial Intelligence with Python</a></h1>
+
+<p>OpenCourseWare</p>
+
+<p><a href="https://brianyu.me/">Brian Yu</a><br>
+<a href="mailto:brian@cs.harvard.edu">brian@cs.harvard.edu</a></p>
+
+<p><a href="https://cs.harvard.edu/malan/">David J. Malan</a><br>
+<a href="mailto:malan@harvard.edu">malan@harvard.edu</a><br>
+<a href="https://www.facebook.com/dmalan" class="pr-1"><i class="fab fa-facebook-f"></i></a>
+<a href="https://github.com/dmalan" class="pr-1"><i class="fab fa-github"></i></a>
+<a href="https://www.instagram.com/davidjmalan/" class="pr-1"><i class="fab fa-instagram"></i></a>
+<a href="https://www.linkedin.com/in/malan/" class="pr-1"><i class="fab fa-linkedin-in"></i></a>
+<a href="https://www.quora.com/profile/David-J-Malan" class="pr-1"><i class="fab fa-quora"></i></a>
+<a href="https://twitter.com/davidjmalan" class="pr-1"><i class="fab fa-twitter"></i></a></p></header>
+
+                    
+
+                    <button aria-controls="nav" aria-expanded="false" class="btn btn-sm collapsed d-md-none" data-target="aside &gt; nav" data-toggle="collapse">
+                        Menu
+                    </button>
+
+                    <nav class="collapse d-md-block"><hr>
+
+<ol start="0">
+  <li><a href="https://cs50.harvard.edu/ai/weeks/0/">Search</a></li>
+  <li><a href="https://cs50.harvard.edu/ai/weeks/1/">Knowledge</a></li>
+  <li><a href="https://cs50.harvard.edu/ai/weeks/2/">Uncertainty</a></li>
+  <li><a href="https://cs50.harvard.edu/ai/weeks/3/">Optimization</a></li>
+  <li><a href="https://cs50.harvard.edu/ai/weeks/4/">Learning</a></li>
+  <li><a href="https://cs50.harvard.edu/ai/weeks/5/">Neural Networks</a></li>
+  <li><a href="https://cs50.harvard.edu/ai/weeks/6/">Language</a></li>
+</ol>
+
+<hr>
+
+<p><a href="https://cs50.harvard.edu/ai/certificate/">CS50 Certificate</a></p>
+
+<hr>
+
+<ul class="fa-ul">
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-circle"></i></span><a href="https://cs50.harvard.edu/ai/ed">Ed Discussion</a> for Q&amp;A</li>
+  <li data-marker="*" class="small"><span class="fa-li"><i class="fas fa-circle"></i></span><a href="https://cs50.harvard.edu/ai/quickstart.pdf">Quick Start Guide</a></li>
+</ul>
+
+<hr>
+
+<ul class="small fa-ul">
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-circle"></i></span><a href="https://cs50.edx.org/ai">edX</a></li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-circle"></i></span><a href="https://itunes.apple.com/us/course/cs50s-introduction-to-artificial-intelligence-with-python/id1505432709">iTunes U</a></li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-circle"></i></span><a href="https://www.youtube.com/playlist?list=PLhQjrBD2T382Nz7z1AEXmioc27axa19Kv">YouTube</a></li>
+</ul>
+
+<hr>
+
+<ul class="small fa-ul">
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-circle"></i></span><a href="https://discord.gg/T8QZqRx">Discord</a></li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-circle"></i></span><a href="https://www.facebook.com/groups/cs50/">Facebook Group</a></li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-circle"></i></span><a href="https://www.facebook.com/cs50/">Facebook Page</a></li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-circle"></i></span><a href="https://instagram.com/cs50">Instagram</a></li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-circle"></i></span><a href="https://www.linkedin.com/groups/7437240/">LinkedIn Group</a></li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-circle"></i></span><a href="https://www.quora.com/topic/CS50">Quora</a></li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-circle"></i></span><a href="https://www.snapchat.com/add/cs50">Snapchat</a></li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-circle"></i></span><a href="https://twitter.com/cs50">Twitter</a></li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-circle"></i></span><a href="http://www.youtube.com/subscription_center?add_user=cs50tv">YouTube</a></li>
+</ul>
+
+<hr>
+
+<p><a href="https://cs50.harvardshop.com/"><img src="./Questions - CS50&#39;s Introduction to Artificial Intelligence with Python_files/THS logo all white (2).png" alt="Harvard Shop"></a></p>
+
+<hr></nav>
+
+                    <footer><p><a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" class="small">CC BY-NC-SA 4.0</a></p></footer>
+
+                </aside>
+
+                <main class="col-md markdown-body" style="margin-bottom: 83px;">
+
+                    <h1 id="project-6b-questions"><a data-id="" href="https://cs50.harvard.edu/ai/projects/6/questions/#project-6b-questions">Project 6b: Questions</a></h1>
+
+<p>Write an AI to answer questions.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ python questions.py corpus
+Query: What are the types of supervised learning?
+Types of supervised learning algorithms include Active learning , classification and regression.
+
+$ python questions.py corpus
+Query: When was Python 3.0 released?
+Python 3.0 was released on 3 December 2008.
+
+$ python questions.py corpus
+Query: How do neurons connect in a neural network?
+Neurons of one layer connect only to neurons of the immediately preceding and immediately following layers.
+</code></pre></div></div>
+
+<h2 id="when-to-do-it"><a data-id="" href="https://cs50.harvard.edu/ai/projects/6/questions/#when-to-do-it">When to Do It</a></h2>
+
+<p>By <span data-local="2020-12-31T23:59:00-05:00">Thu, Dec 31, 2020 11:59 PM EST</span>.</p>
+
+<h2 id="how-to-get-help"><a data-id="" href="https://cs50.harvard.edu/ai/projects/6/questions/#how-to-get-help">How to Get Help</a></h2>
+
+<ol>
+  <li>Ask questions on Ed!</li>
+  <li>Ask questions on CS50’s various online fora!</li>
+</ol>
+
+<h2 id="background"><a data-id="" href="https://cs50.harvard.edu/ai/projects/6/questions/#background">Background</a></h2>
+
+<p>Question Answering (QA) is a field within natural language processing focused on designing systems that can answer questions. Among the more famous question answering systems is <a href="https://en.wikipedia.org/wiki/Watson_(computer)">Watson</a>, the IBM computer that competed (and won) on <em>Jeopardy!</em>. A question answering system of Watson’s accuracy requires enormous complexity and vast amounts of data, but in this problem, we’ll design a very simple question answering system based on inverse document frequency.</p>
+
+<p>Our question answering system will perform two tasks: document retrieval and passage retrieval. Our system will have access to a corpus of text documents. When presented with a query (a question in English asked by the user), document retrieval will first identify which document(s) are most relevant to the query. Once the top documents are found, the top document(s) will be subdivided into passages (in this case, sentences) so that the most relevant passage to the question can be determined.</p>
+
+<p>How do we find the most relevant documents and passages? To find the most relevant documents, we’ll use tf-idf to rank documents based both on term frequency for words in the query as well as inverse document frequency for words in the query. Once we’ve found the most relevant documents, there <a href="https://groups.csail.mit.edu/infolab/publications/Tellex-etal-SIGIR03.pdf">many possible metrics</a> for scoring passages, but we’ll use a combination of inverse document frequency and a query term density measure (described in the Specification).</p>
+
+<p>More sophisticated question answering systems might employ other strategies (analyzing the type of question word used, looking for synonyms of query words, <a href="https://en.wikipedia.org/wiki/Lemmatisation">lemmatizing</a> to handle different forms of the same word, etc.) but we’ll leave those sorts of improvements as exercises for you to work on if you’d like to after you’ve completed this project!</p>
+
+<h2 id="getting-started"><a data-id="" href="https://cs50.harvard.edu/ai/projects/6/questions/#getting-started">Getting Started</a></h2>
+
+<ul class="fa-ul">
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-circle"></i></span>Download the distribution code from <a href="https://cdn.cs50.net/ai/2020/x/projects/6/questions.zip">https://cdn.cs50.net/ai/2020/x/projects/6/questions.zip</a> and unzip it.</li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-circle"></i></span>Inside of the <code class="highlighter-rouge">questions</code> directory, run <code class="highlighter-rouge">pip3 install -r requirements.txt</code> to install this project’s dependency: <code class="highlighter-rouge">nltk</code> for natural language processing.</li>
+</ul>
+
+<h2 id="understanding"><a data-id="" href="https://cs50.harvard.edu/ai/projects/6/questions/#understanding">Understanding</a></h2>
+
+<p>First, take a look at the documents in <code class="highlighter-rouge">corpus</code>. Each is a text file containing the contents of a Wikipedia page. Our goal is to write an AI that can find sentences from these files that are relevant to a user’s query. You are welcome and encouraged to add, remove, or modify files in the corpus if you’d like to experiment with answering queries based on a different corpus of documents. Just be sure each file in the corpus is a text file ending in <code class="highlighter-rouge">.txt</code>.</p>
+
+<p>Now, take a look at <code class="highlighter-rouge">questions.py</code>. The global variable <code class="highlighter-rouge">FILE_MATCHES</code> specifies how many files should be matched for any given query. The global variable <code class="highlighter-rouge">SENTENCES_MATCHES</code> specifies how many sentences within those files should be matched for any given query. By default, each of these values is 1: our AI will find the top sentence from the top matching document as the answer to our question. You are welcome and encouraged to experiment with changing these values.</p>
+
+<p>In the <code class="highlighter-rouge">main</code> function, we first load the files from the corpus directory into memory (via the <code class="highlighter-rouge">load_files</code> function). Each of the files is then tokenized (via <code class="highlighter-rouge">tokenize</code>) into a list of words, which then allows us to compute inverse document frequency values for each of the words (via <code class="highlighter-rouge">compute_idfs</code>). The user is then prompted to enter a query. The <code class="highlighter-rouge">top_files</code> function identifies the files that are the best match for the query. From those files, sentences are extracted, and the <code class="highlighter-rouge">top_sentences</code> function identifies the sentences that are the best match for the query.</p>
+
+<p>The <code class="highlighter-rouge">load_files</code>, <code class="highlighter-rouge">tokenize</code>, <code class="highlighter-rouge">compute_idfs</code>, <code class="highlighter-rouge">top_files</code>, and <code class="highlighter-rouge">top_sentences</code> functions are left to you!</p>
+
+<h2 id="specification"><a data-id="" href="https://cs50.harvard.edu/ai/projects/6/questions/#specification">Specification</a></h2>
+
+<p>Complete the implementation of <code class="highlighter-rouge">load_files</code>, <code class="highlighter-rouge">tokenize</code>, <code class="highlighter-rouge">compute_idfs</code>, <code class="highlighter-rouge">top_files</code>, and <code class="highlighter-rouge">top_sentences</code> in <code class="highlighter-rouge">questions.py</code>.</p>
+
+<ul class="fa-ul">
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-circle"></i></span>The <code class="highlighter-rouge">load_files</code> function should accept the name of a <code class="highlighter-rouge">directory</code> and return a dictionary mapping the filename of each <code class="highlighter-rouge">.txt</code> file inside that directory to the file’s contents as a string.
+    <ul class="fa-ul">
+      <li data-marker="*"><span class="fa-li"><i class="fas fa-circle"></i></span>Your function should be platform-independent: that is to say, it should work regardless of operating system. Note that on macOS, the <code class="highlighter-rouge">/</code> character is used to separate path components, while the <code class="highlighter-rouge">\</code> character is used on Windows. Use <a href="https://docs.python.org/3/library/os.html"><code class="highlighter-rouge">os.sep</code></a> and <a href="https://docs.python.org/3/library/os.path.html#os.path.join"><code class="highlighter-rouge">os.path.join</code></a> as needed instead of using your platform’s specific separator character.</li>
+      <li data-marker="*"><span class="fa-li"><i class="fas fa-circle"></i></span>In the returned dictionary, there should be one key named for each <code class="highlighter-rouge">.txt</code> file in the directory. The value associated with that key should be a string (the result of <code class="highlighter-rouge">read</code>ing the corresonding file).</li>
+      <li data-marker="*"><span class="fa-li"><i class="fas fa-circle"></i></span>Each key should be just the filename, without including the directory name. For example, if the directory is called <code class="highlighter-rouge">corpus</code> and contains files <code class="highlighter-rouge">a.txt</code> and <code class="highlighter-rouge">b.txt</code>, the keys should be <code class="highlighter-rouge">a.txt</code> and <code class="highlighter-rouge">b.txt</code> and not <code class="highlighter-rouge">corpus/a.txt</code> and <code class="highlighter-rouge">corpus/b.txt</code>.</li>
+    </ul>
+  </li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-circle"></i></span>The <code class="highlighter-rouge">tokenize</code> function should accept a <code class="highlighter-rouge">document</code> (a string) as input, and return a list of all of the words in that document, in order and lowercased.
+    <ul class="fa-ul">
+      <li data-marker="*"><span class="fa-li"><i class="fas fa-circle"></i></span>You should use <code class="highlighter-rouge">nltk</code>’s <a href="https://www.nltk.org/api/nltk.tokenize.html#nltk.tokenize.punkt.PunktLanguageVars.word_tokenize"><code class="highlighter-rouge">word_tokenize</code></a> function to perform tokenization.</li>
+      <li data-marker="*"><span class="fa-li"><i class="fas fa-circle"></i></span>All words in the returned list should be lowercased.</li>
+      <li data-marker="*"><span class="fa-li"><i class="fas fa-circle"></i></span>Filter out punctuation and stopwords (common words that are unlikely to be useful for querying). Punctuation is defined as any character in <code class="highlighter-rouge">string.punctuation</code> (after you <code class="highlighter-rouge">import string</code>). Stopwords are defined as any word in <code class="highlighter-rouge">nltk.corpus.stopwords.words("english")</code>.</li>
+      <li data-marker="*"><span class="fa-li"><i class="fas fa-circle"></i></span>If a word appears multiple times in the <code class="highlighter-rouge">document</code>, it should also appear multiple times in the returned list (unless it was filtered out).</li>
+    </ul>
+  </li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-circle"></i></span>The <code class="highlighter-rouge">compute_idfs</code> function should accept a dictionary of <code class="highlighter-rouge">documents</code> and return a new dictionary mapping words to their IDF (inverse document frequency) values.
+    <ul class="fa-ul">
+      <li data-marker="*"><span class="fa-li"><i class="fas fa-circle"></i></span>Assume that <code class="highlighter-rouge">documents</code> will be a dictionary mapping names of documents to a list of words in that document.</li>
+      <li data-marker="*"><span class="fa-li"><i class="fas fa-circle"></i></span>The returned dictionary should map every word that appears in at least one of the documents to its inverse document frequency value.</li>
+      <li data-marker="*"><span class="fa-li"><i class="fas fa-circle"></i></span>Recall that the inverse document frequency of a word is defined by taking the natural logarithm of the number of documents divided by the number of documents in which the word appears.</li>
+    </ul>
+  </li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-circle"></i></span>The <code class="highlighter-rouge">top_files</code> function should, given a <code class="highlighter-rouge">query</code> (a set of words), <code class="highlighter-rouge">files</code> (a dictionary mapping names of files to a list of their words), and <code class="highlighter-rouge">idfs</code> (a dictionary mapping words to their IDF values), return a list of the filenames of the the <code class="highlighter-rouge">n</code> top files that match the query, ranked according to tf-idf.
+    <ul class="fa-ul">
+      <li data-marker="*"><span class="fa-li"><i class="fas fa-circle"></i></span>The returned list of filenames should be of length <code class="highlighter-rouge">n</code> and should be ordered with the best match first.</li>
+      <li data-marker="*"><span class="fa-li"><i class="fas fa-circle"></i></span>Files should be ranked according to the sum of tf-idf values for any word in the query that also appears in the file. Words in the query that do not appear in the file should not contribute to the file’s score.</li>
+      <li data-marker="*"><span class="fa-li"><i class="fas fa-circle"></i></span>Recall that tf-idf for a term is computed by multiplying the number of times the term appears in the document by the IDF value for that term.</li>
+    </ul>
+  </li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-circle"></i></span>The <code class="highlighter-rouge">top_sentences</code> function should, given a <code class="highlighter-rouge">query</code> (a set of words), <code class="highlighter-rouge">sentences</code> (a dictionary mapping sentences to a list of their words), and <code class="highlighter-rouge">idfs</code> (a dictionary mapping words to their IDF values), return a list of the <code class="highlighter-rouge">n</code> top sentences that match the query, ranked according to IDF.
+    <ul class="fa-ul">
+      <li data-marker="*"><span class="fa-li"><i class="fas fa-circle"></i></span>The returned list of sentences should be of length <code class="highlighter-rouge">n</code> and should be ordered with the best match first.</li>
+      <li data-marker="*"><span class="fa-li"><i class="fas fa-circle"></i></span>Sentences should be ranked according to “matching word measure”: namely, the sum of IDF values for any word in the query that also appears in the sentence. Note that term frequency should not be taken into account here, only inverse document frequency.</li>
+      <li data-marker="*"><span class="fa-li"><i class="fas fa-circle"></i></span>If two sentences have the same value according to the matching word measure, then sentences with a higher “query term density” should be preferred. Query term density is defined as the proportion of words in the sentence that are also words in the query. For example, if a sentence has 10 words, 3 of which are in the query, then the sentence’s query term density is <code class="highlighter-rouge">0.3</code>.</li>
+    </ul>
+  </li>
+</ul>
+
+<p>You should not modify anything else in <code class="highlighter-rouge">questions.py</code> other than the functions the specification calls for you to implement, though you may write additional functions, add new global constant variables, and/or import other Python standard library modules.</p>
+
+<h2 id="hints"><a data-id="" href="https://cs50.harvard.edu/ai/projects/6/questions/#hints">Hints</a></h2>
+
+<ul class="fa-ul">
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-circle"></i></span>In the <code class="highlighter-rouge">compute_idfs</code> function, recall that the <code class="highlighter-rouge">documents</code> input will be represented as a dictionary mapping document names to a list of words in each of those documents. The document names themselves are irrelevant to the calculation of IDF values. That is to say, changing any or all of the document names should not change the IDF values that are computed.</li>
+</ul>
+
+<h2 id="how-to-submit"><a data-id="" href="https://cs50.harvard.edu/ai/projects/6/questions/#how-to-submit">How to Submit</a></h2>
+
+<ol>
+  <li>Visit <a href="https://submit.cs50.io/invites/8f7fa48876984cda98a73ba53bcf01fd">this link</a>, log in with your GitHub account, and click <strong>Authorize cs50</strong>. Then, check the box indicating that you’d like to grant course staff access to your submissions, and click <strong>Join course</strong>.</li>
+  <li><a href="https://git-scm.com/downloads">Install Git</a> and, optionally, <a href="https://cs50.readthedocs.io/submit50/">install <code class="highlighter-rouge">submit50</code></a>.</li>
+  <li>If you’ve installed <code class="highlighter-rouge">submit50</code>, execute
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>submit50 ai50/projects/2020/x/questions
+</code></pre></div>    </div>
+    <p>Otherwise, using Git, push your work to <code class="highlighter-rouge">https://github.com/me50/USERNAME.git</code>, where <code class="highlighter-rouge">USERNAME</code> is your GitHub username, on a branch called <code class="highlighter-rouge">ai50/projects/2020/x/questions</code>.</p>
+  </li>
+  <li><a href="https://www.howtogeek.com/205742/how-to-record-your-windows-mac-linux-android-or-ios-screen/">Record a 1- to 5-minute screencast</a> in which you demonstrate your project’s functionality. Be certain that every element of the specification, above, is demonstrated in your video. There’s no need to show your code, just your application in action; we’ll review your code on GitHub. <a href="https://www.youtube.com/upload">Upload that video to YouTube</a> (as unlisted or public, but not private) or somewhere else.</li>
+  <li>Submit <a href="https://forms.cs50.io/c4583f86-920c-48d6-9b9c-6a825bc34cbe">this form</a>.</li>
+</ol>
+
+<p>You can then go to <a href="https://cs50.me/cs50ai">https://cs50.me/cs50ai</a> to view your current progress!</p>
+
+
+                </main>
+
+            </div>
+
+        </div>
+
+        
+ 
+    
+
+
+</body></html>
