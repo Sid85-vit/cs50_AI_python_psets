@@ -99,7 +99,11 @@ class CrosswordCreator():
         (Remove any values that are inconsistent with a variable's unary
          constraints; in this case, the length of the word.)
         """
-        raise NotImplementedError
+        for k,v in self.domains.items():
+            word_len = k.length
+            for word in v.copy():
+                if len(word) != word_len:
+                    v.remove(word)
 
     def revise(self, x, y):
         """
@@ -180,7 +184,7 @@ def main():
     output = sys.argv[3] if len(sys.argv) == 4 else None
 
     # Generate crossword
-    crossword = Crossword(sys.argv[1], sys.argv[2])
+    crossword = Crossword(structure, words)
     creator = CrosswordCreator(crossword)
     assignment = creator.solve()
 
