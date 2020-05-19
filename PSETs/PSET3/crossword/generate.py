@@ -91,7 +91,6 @@ class CrosswordCreator():
         Enforce node and arc consistency, and then solve the CSP.
         """
         self.enforce_node_consistency()
-        print(self.domains)
         self.ac3()
         return self.backtrack(dict())
 
@@ -173,6 +172,7 @@ class CrosswordCreator():
         """
         q = queue.SimpleQueue()
         variables = list(self.domains.keys())
+        # how do I make sure each of the values in assignment is unique? do I do it here?
         if arcs is not None:
             for arc in arcs:
                 q.put(arc)
@@ -274,15 +274,14 @@ class CrosswordCreator():
 
 
 
-                inferences = self.ac3(assignment)
+                # inferences = self.ac3(assignment)
                 # if inferences:
                     # add inferences to assignment
                 result = self.backtrack(assignment)
                 if result is not None:
                     return result
-        #     remove {var = value} and inferences from assignment
+                del assignment[var] # and inferences from assignment
         return None
-        raise NotImplementedError
 
 
 def main():
