@@ -91,7 +91,42 @@ class CrosswordCreator():
         Enforce node and arc consistency, and then solve the CSP.
         """
         self.enforce_node_consistency()
+        print(self.domains)
+        """
+        {
+            Variable(1, 4, 'down', 4): {'NINE', 'FIVE', 'FOUR'}, 
+            Variable(0, 1, 'across', 3): {'TEN', 'ONE', 'SIX', 'TWO'}, 
+            Variable(4, 1, 'across', 4): {'NINE', 'FIVE', 'FOUR'}, 
+            Variable(0, 1, 'down', 5): {'SEVEN', 'THREE', 'EIGHT'}
+        }
+        """
         self.ac3()
+        print(self.domains)
+        """
+        {
+            Variable(4, 1, 'across', 4): {'NINE'}, 
+            Variable(0, 1, 'down', 5): {'SEVEN'}, 
+            Variable(0, 1, 'across', 3): {'SIX'}, 
+            Variable(1, 4, 'down', 4): {'NINE', 'FIVE'}
+        }
+        """
+        """
+        self.crossword.overlaps
+        {
+        (Variable(0, 1, 'down', 5), Variable(4, 1, 'across', 4)): (4, 0), 
+        (Variable(0, 1, 'down', 5), Variable(0, 1, 'across', 3)): (0, 0), 
+        (Variable(0, 1, 'down', 5), Variable(1, 4, 'down', 4)): None, 
+        (Variable(4, 1, 'across', 4), Variable(0, 1, 'down', 5)): (0, 4), 
+        (Variable(4, 1, 'across', 4), Variable(0, 1, 'across', 3)): None, 
+        (Variable(4, 1, 'across', 4), Variable(1, 4, 'down', 4)): (3, 3), 
+        (Variable(0, 1, 'across', 3), Variable(0, 1, 'down', 5)): (0, 0), 
+        (Variable(0, 1, 'across', 3), Variable(4, 1, 'across', 4)): None, 
+        (Variable(0, 1, 'across', 3), Variable(1, 4, 'down', 4)): None, 
+        (Variable(1, 4, 'down', 4), Variable(0, 1, 'down', 5)): None, 
+        (Variable(1, 4, 'down', 4), Variable(4, 1, 'across', 4)): (3, 3), 
+        (Variable(1, 4, 'down', 4), Variable(0, 1, 'across', 3)): None
+        }
+"""
         return self.backtrack(dict())
 
     def enforce_node_consistency(self):
@@ -137,21 +172,7 @@ class CrosswordCreator():
 # Variable(1, 4, 'down', 4): {'FOUR', 'NINE', 'FIVE'}
 # }
 
-# self.crossword.overlaps
-# {
-# (Variable(0, 1, 'down', 5), Variable(4, 1, 'across', 4)): (4, 0), 
-# (Variable(0, 1, 'down', 5), Variable(0, 1, 'across', 3)): (0, 0), 
-# (Variable(0, 1, 'down', 5), Variable(1, 4, 'down', 4)): None, 
-# (Variable(4, 1, 'across', 4), Variable(0, 1, 'down', 5)): (0, 4), 
-# (Variable(4, 1, 'across', 4), Variable(0, 1, 'across', 3)): None, 
-# (Variable(4, 1, 'across', 4), Variable(1, 4, 'down', 4)): (3, 3), 
-# (Variable(0, 1, 'across', 3), Variable(0, 1, 'down', 5)): (0, 0), 
-# (Variable(0, 1, 'across', 3), Variable(4, 1, 'across', 4)): None, 
-# (Variable(0, 1, 'across', 3), Variable(1, 4, 'down', 4)): None, 
-# (Variable(1, 4, 'down', 4), Variable(0, 1, 'down', 5)): None, 
-# (Variable(1, 4, 'down', 4), Variable(4, 1, 'across', 4)): (3, 3), 
-# (Variable(1, 4, 'down', 4), Variable(0, 1, 'across', 3)): None
-# }
+
 
     def get_neighbors(self, var):
         variables = list(self.domains.keys())
@@ -178,9 +199,12 @@ class CrosswordCreator():
                 q.put(arc)
         # I worry about having the x and y's all over the place, I wonder if one can overwrite another in unexpected ways
         else:
+            already_seen = set()
             for x in variables:
-                for y in self.get_neighbors(x):
-                    q.put((x,y))
+                if x not in already_seen:
+                    already_seen.add(x)
+                    for y in self.get_neighbors(x):
+                        q.put((x,y))
         while not q.empty():
             (x,y) = q.get()
             if self.revise(x, y):
@@ -237,6 +261,7 @@ class CrosswordCreator():
                         cnt += 1
             ans.append((word_1, cnt))
         ans.sort(key=lambda x: x[1])
+        ans = list(map(lambda x: x[0], ans))
         return ans
 
     def select_unassigned_variable(self, assignment):
@@ -280,7 +305,7 @@ class CrosswordCreator():
                 result = self.backtrack(assignment)
                 if result is not None:
                     return result
-                del assignment[var] # and inferences from assignment
+            del assignment[var] # and inferences from assignment
         return None
 
 
